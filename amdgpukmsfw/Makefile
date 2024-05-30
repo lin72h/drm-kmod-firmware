@@ -1,22 +1,43 @@
 # $FreeBSD$
 
-.if !defined(OSVERSION)
-OSVERSION!=	awk '/^\#define[[:blank:]]__FreeBSD_version/ {print $$3}' ${SYSDIR}/sys/param.h 
-.endif
+# .if !defined(OSVERSION)
+# OSVERSION!=	awk '/^\#define[[:blank:]]__FreeBSD_version/ {print $$3}' ${SYSDIR}/sys/param.h 
+# .endif
+#
+#
+
+OSVERSION= 1500018
+
+_UNSUPPORTED_AMDGPUKMODS= banks \
+			bonaire \
+			carrizo \
+			fiji \
+			hainan \
+			hawaii \
+			kabini \
+			kaveri \
+			mullins \
+			oland \
+			pitcairn \
+			polaris10 \
+			polaris11 \
+			polaris12 \
+			si58 \
+			stoney \
+			tahiti \
+			tonga \
+			topaz \
+			verde
 
 _VALID_AMDGPUKMODS=	aldebaran \
 			arcturus \
-			banks \
 			beige_goby \
-			bonaire \
-			carrizo \
 			cyan_skillfish2 \
 			dcn_3_1_4 \
 			dcn_3_1_5 \
 			dcn_3_1_6 \
 			dcn_3_2_0 \
 			dcn_3_2_1 \
-			fiji \
 			gc_10_3_6 \
 			gc_10_3_7 \
 			gc_11_0_0 \
@@ -24,20 +45,10 @@ _VALID_AMDGPUKMODS=	aldebaran \
 			gc_11_0_2 \
 			gc_11_0_3 \
 			gc_11_0_4 \
-			hainan \
-			hawaii \
-			kabini \
-			kaveri \
-			mullins \
 			navi10 \
 			navi12 \
 			navi14 \
-			oland \
 			picasso \
-			pitcairn \
-			polaris10 \
-			polaris11 \
-			polaris12 \
 			psp_13_0_0 \
 			psp_13_0_4 \
 			psp_13_0_5 \
@@ -55,14 +66,9 @@ _VALID_AMDGPUKMODS=	aldebaran \
 			sdma_6_0_2 \
 			sdma_6_0_3 \
 			sdma_6_0_4 \
-			si58 \
 			smu_13_0_0 \
 			smu_13_0_7 \
 			smu_13_0_10 \
-			stoney \
-			tahiti \
-			tonga \
-			topaz \
 			vcn_3_1_2 \
 			vcn_4_0_0 \
 			vcn_4_0_2 \
@@ -71,187 +77,182 @@ _VALID_AMDGPUKMODS=	aldebaran \
 			vega12 \
 			vega20 \
 			vegam \
-			verde \
-			yellow_carp
-
-.if ${OSVERSION} >= 1301000
-_VALID_AMDGPUKMODS+=	dimgrey_cavefish \
+			yellow_carp \
 			green_sardine \
 			sienna_cichlid \
 			navy_flounder \
 			vangogh
-.endif
 
 AMDGPUKMODS?=	${_VALID_AMDGPUKMODS}
 
-.for var in ${AMDGPUKMODS}
-.if empty(_VALID_AMDGPUKMODS:M${var})
-_INVALID_AMDGPU_KMODS+=	${var}
-.endif
-.endfor
-.if !empty(_INVALID_AMDGPU_KMODS)
-.error "${_INVALID_AMDGPU_KMODS} firmware doesn't exists"
-.endif
+# .for var in ${AMDGPUKMODS}
+# .if empty(_VALID_AMDGPUKMODS:M${var})
+# _INVALID_AMDGPU_KMODS+=	${var}
+# .endif
+# .endfor
+# .if !empty(_INVALID_AMDGPU_KMODS)
+# .error "${_INVALID_AMDGPU_KMODS} firmware doesn't exists"
+# .endif
 
 ## GFX6/GCN
-.if ${AMDGPUKMODS:Mbanks}
-SUBDIR+=	banks_k_2_smc
-.endif
+# .if ${AMDGPUKMODS:Mbanks}
+# SUBDIR+=	banks_k_2_smc
+# .endif
 
-.if ${AMDGPUKMODS:Mhainan}
-SUBDIR+=	hainan_ce	\
-		hainan_k_smc	\
-		hainan_mc	\
-		hainan_me	\
-		hainan_pfp	\
-		hainan_rlc	\
-		hainan_smc
-.endif
+# .if ${AMDGPUKMODS:Mhainan}
+# SUBDIR+=	hainan_ce	\
+# 		hainan_k_smc	\
+# 		hainan_mc	\
+# 		hainan_me	\
+# 		hainan_pfp	\
+# 		hainan_rlc	\
+# 		hainan_smc
+# .endif
 
-.if ${AMDGPUKMODS:Moland}
-SUBDIR+=	oland_ce	\
-		oland_k_smc	\
-		oland_mc	\
-		oland_me	\
-		oland_pfp	\
-		oland_rlc	\
-		oland_smc	\
-		oland_uvd
-.endif
+# .if ${AMDGPUKMODS:Moland}
+# SUBDIR+=	oland_ce	\
+# 		oland_k_smc	\
+# 		oland_mc	\
+# 		oland_me	\
+# 		oland_pfp	\
+# 		oland_rlc	\
+# 		oland_smc	\
+# 		oland_uvd
+# .endif
 
-.if ${AMDGPUKMODS:Mpitcairn}
-SUBDIR+=	pitcairn_ce	\
-		pitcairn_k_smc	\
-		pitcairn_mc	\
-		pitcairn_me	\
-		pitcairn_pfp	\
-		pitcairn_rlc	\
-		pitcairn_smc	\
-		pitcairn_uvd
-.endif
+# .if ${AMDGPUKMODS:Mpitcairn}
+# SUBDIR+=	pitcairn_ce	\
+# 		pitcairn_k_smc	\
+# 		pitcairn_mc	\
+# 		pitcairn_me	\
+# 		pitcairn_pfp	\
+# 		pitcairn_rlc	\
+# 		pitcairn_smc	\
+# 		pitcairn_uvd
+# .endif
 
-.if ${AMDGPUKMODS:Msi58}
-SUBDIR+=	si58_mc
-.endif
+# .if ${AMDGPUKMODS:Msi58}
+# SUBDIR+=	si58_mc
+# .endif
 
-.if ${AMDGPUKMODS:Mtahiti}
-SUBDIR+=	tahiti_ce	\
-		tahiti_k_smc	\
-		tahiti_mc	\
-		tahiti_me	\
-		tahiti_pfp	\
-		tahiti_rlc	\
-		tahiti_smc	\
-		tahiti_uvd
-.endif
+# .if ${AMDGPUKMODS:Mtahiti}
+# SUBDIR+=	tahiti_ce	\
+# 		tahiti_k_smc	\
+# 		tahiti_mc	\
+# 		tahiti_me	\
+# 		tahiti_pfp	\
+# 		tahiti_rlc	\
+# 		tahiti_smc	\
+# 		tahiti_uvd
+# .endif
 
-.if ${AMDGPUKMODS:Mverde}
-SUBDIR+=	verde_ce	\
-		verde_k_smc	\
-		verde_mc	\
-		verde_me	\
-		verde_pfp	\
-		verde_rlc	\
-		verde_smc	\
-		verde_uvd
-.endif
+# .if ${AMDGPUKMODS:Mverde}
+# SUBDIR+=	verde_ce	\
+# 		verde_k_smc	\
+# 		verde_mc	\
+# 		verde_me	\
+# 		verde_pfp	\
+# 		verde_rlc	\
+# 		verde_smc	\
+# 		verde_uvd
+# .endif
 
 ## GFX7/GCN
-.if ${AMDGPUKMODS:Mbonaire}
-SUBDIR+=	bonaire_ce	\
-		bonaire_k_smc	\
-		bonaire_mc	\
-		bonaire_me	\
-		bonaire_mec	\
-		bonaire_pfp	\
-		bonaire_rlc	\
-		bonaire_sdma	\
-		bonaire_sdma1	\
-		bonaire_smc	\
-		bonaire_uvd	\
-		bonaire_vce
-.endif
+# .if ${AMDGPUKMODS:Mbonaire}
+# SUBDIR+=	bonaire_ce	\
+# 		bonaire_k_smc	\
+# 		bonaire_mc	\
+# 		bonaire_me	\
+# 		bonaire_mec	\
+# 		bonaire_pfp	\
+# 		bonaire_rlc	\
+# 		bonaire_sdma	\
+# 		bonaire_sdma1	\
+# 		bonaire_smc	\
+# 		bonaire_uvd	\
+# 		bonaire_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mhawaii}
-SUBDIR+=	hawaii_ce	\
-		hawaii_k_smc	\
-		hawaii_mc	\
-		hawaii_me	\
-		hawaii_mec	\
-		hawaii_pfp	\
-		hawaii_rlc	\
-		hawaii_sdma	\
-		hawaii_sdma1	\
-		hawaii_smc	\
-		hawaii_uvd	\
-		hawaii_vce
-.endif
+# .if ${AMDGPUKMODS:Mhawaii}
+# SUBDIR+=	hawaii_ce	\
+# 		hawaii_k_smc	\
+# 		hawaii_mc	\
+# 		hawaii_me	\
+# 		hawaii_mec	\
+# 		hawaii_pfp	\
+# 		hawaii_rlc	\
+# 		hawaii_sdma	\
+# 		hawaii_sdma1	\
+# 		hawaii_smc	\
+# 		hawaii_uvd	\
+# 		hawaii_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mkabini}
-SUBDIR+=	kabini_ce	\
-		kabini_me	\
-		kabini_mec	\
-		kabini_pfp	\
-		kabini_rlc	\
-		kabini_sdma	\
-		kabini_sdma1	\
-		kabini_uvd	\
-		kabini_vce
-.endif
+# .if ${AMDGPUKMODS:Mkabini}
+# SUBDIR+=	kabini_ce	\
+# 		kabini_me	\
+# 		kabini_mec	\
+# 		kabini_pfp	\
+# 		kabini_rlc	\
+# 		kabini_sdma	\
+# 		kabini_sdma1	\
+# 		kabini_uvd	\
+# 		kabini_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mkaveri}
-SUBDIR+=	kaveri_ce	\
-		kaveri_me	\
-		kaveri_mec	\
-		kaveri_mec2	\
-		kaveri_pfp	\
-		kaveri_rlc	\
-		kaveri_sdma	\
-		kaveri_sdma1	\
-		kaveri_uvd	\
-		kaveri_vce
-.endif
+# .if ${AMDGPUKMODS:Mkaveri}
+# SUBDIR+=	kaveri_ce	\
+# 		kaveri_me	\
+# 		kaveri_mec	\
+# 		kaveri_mec2	\
+# 		kaveri_pfp	\
+# 		kaveri_rlc	\
+# 		kaveri_sdma	\
+# 		kaveri_sdma1	\
+# 		kaveri_uvd	\
+# 		kaveri_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mmullins}
-SUBDIR+=	mullins_ce	\
-		mullins_me	\
-		mullins_mec	\
-		mullins_pfp	\
-		mullins_rlc	\
-		mullins_sdma	\
-		mullins_sdma1	\
-		mullins_uvd	\
-		mullins_vce
-.endif
+# .if ${AMDGPUKMODS:Mmullins}
+# SUBDIR+=	mullins_ce	\
+# 		mullins_me	\
+# 		mullins_mec	\
+# 		mullins_pfp	\
+# 		mullins_rlc	\
+# 		mullins_sdma	\
+# 		mullins_sdma1	\
+# 		mullins_uvd	\
+# 		mullins_vce
+# .endif
 
 ## GFX8/gcn
-.if ${AMDGPUKMODS:Mcarrizo}
-SUBDIR+=	carrizo_ce	\
-		carrizo_me	\
-		carrizo_mec	\
-		carrizo_mec2	\
-		carrizo_pfp	\
-		carrizo_rlc	\
-		carrizo_sdma	\
-		carrizo_sdma1	\
-		carrizo_uvd	\
-		carrizo_vce
-.endif
+# .if ${AMDGPUKMODS:Mcarrizo}
+# SUBDIR+=	carrizo_ce	\
+# 		carrizo_me	\
+# 		carrizo_mec	\
+# 		carrizo_mec2	\
+# 		carrizo_pfp	\
+# 		carrizo_rlc	\
+# 		carrizo_sdma	\
+# 		carrizo_sdma1	\
+# 		carrizo_uvd	\
+# 		carrizo_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mfiji}
-SUBDIR+=	fiji_ce		\
-		fiji_mc		\
-		fiji_me		\
-		fiji_mec	\
-		fiji_mec2	\
-		fiji_pfp	\
-		fiji_rlc	\
-		fiji_sdma	\
-		fiji_sdma1	\
-		fiji_smc	\
-		fiji_uvd	\
-		fiji_vce
-.endif
+# .if ${AMDGPUKMODS:Mfiji}
+# SUBDIR+=	fiji_ce		\
+# 		fiji_mc		\
+# 		fiji_me		\
+# 		fiji_mec	\
+# 		fiji_mec2	\
+# 		fiji_pfp	\
+# 		fiji_rlc	\
+# 		fiji_sdma	\
+# 		fiji_sdma1	\
+# 		fiji_smc	\
+# 		fiji_uvd	\
+# 		fiji_vce
+# .endif
 
 .if ${AMDGPUKMODS:Mgc_10_3_6}
 SUBDIR+=	gc_10_3_6_ce	\
@@ -325,117 +326,117 @@ SUBDIR+=	gc_11_0_4_imu	\
 		gc_11_0_4_rlc
 .endif
 
-.if ${AMDGPUKMODS:Mpolaris10}
-SUBDIR+=	polaris10_ce		\
-		polaris10_ce_2		\
-		polaris10_k2_smc	\
-		polaris10_k_mc		\
-		polaris10_k_smc		\
-		polaris10_mc		\
-		polaris10_me		\
-		polaris10_me_2		\
-		polaris10_mec		\
-		polaris10_mec2		\
-		polaris10_mec2_2	\
-		polaris10_mec_2		\
-		polaris10_pfp		\
-		polaris10_pfp_2		\
-		polaris10_rlc		\
-		polaris10_sdma		\
-		polaris10_sdma1		\
-		polaris10_smc		\
-		polaris10_smc_sk	\
-		polaris10_uvd		\
-		polaris10_vce
-.endif
+# .if ${AMDGPUKMODS:Mpolaris10}
+# SUBDIR+=	polaris10_ce		\
+# 		polaris10_ce_2		\
+# 		polaris10_k2_smc	\
+# 		polaris10_k_mc		\
+# 		polaris10_k_smc		\
+# 		polaris10_mc		\
+# 		polaris10_me		\
+# 		polaris10_me_2		\
+# 		polaris10_mec		\
+# 		polaris10_mec2		\
+# 		polaris10_mec2_2	\
+# 		polaris10_mec_2		\
+# 		polaris10_pfp		\
+# 		polaris10_pfp_2		\
+# 		polaris10_rlc		\
+# 		polaris10_sdma		\
+# 		polaris10_sdma1		\
+# 		polaris10_smc		\
+# 		polaris10_smc_sk	\
+# 		polaris10_uvd		\
+# 		polaris10_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mpolaris11}
-SUBDIR+=	polaris11_ce		\
-		polaris11_ce_2		\
-		polaris11_k2_smc	\
-		polaris11_k_mc		\
-		polaris11_k_smc		\
-		polaris11_mc		\
-		polaris11_me		\
-		polaris11_me_2		\
-		polaris11_mec		\
-		polaris11_mec2		\
-		polaris11_mec2_2	\
-		polaris11_mec_2		\
-		polaris11_pfp		\
-		polaris11_pfp_2		\
-		polaris11_rlc		\
-		polaris11_sdma		\
-		polaris11_sdma1		\
-		polaris11_smc		\
-		polaris11_smc_sk	\
-		polaris11_uvd		\
-		polaris11_vce
-.endif
+# .if ${AMDGPUKMODS:Mpolaris11}
+# SUBDIR+=	polaris11_ce		\
+# 		polaris11_ce_2		\
+# 		polaris11_k2_smc	\
+# 		polaris11_k_mc		\
+# 		polaris11_k_smc		\
+# 		polaris11_mc		\
+# 		polaris11_me		\
+# 		polaris11_me_2		\
+# 		polaris11_mec		\
+# 		polaris11_mec2		\
+# 		polaris11_mec2_2	\
+# 		polaris11_mec_2		\
+# 		polaris11_pfp		\
+# 		polaris11_pfp_2		\
+# 		polaris11_rlc		\
+# 		polaris11_sdma		\
+# 		polaris11_sdma1		\
+# 		polaris11_smc		\
+# 		polaris11_smc_sk	\
+# 		polaris11_uvd		\
+# 		polaris11_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mpolaris12}
-SUBDIR+=	polaris12_ce		\
-		polaris12_ce_2		\
-		polaris12_k_mc		\
-		polaris12_k_smc		\
-		polaris12_32_mc		\
-		polaris12_mc		\
-		polaris12_me		\
-		polaris12_me_2		\
-		polaris12_mec		\
-		polaris12_mec2		\
-		polaris12_mec2_2	\
-		polaris12_mec_2		\
-		polaris12_pfp		\
-		polaris12_pfp_2		\
-		polaris12_rlc		\
-		polaris12_sdma		\
-		polaris12_sdma1		\
-		polaris12_smc		\
-		polaris12_uvd		\
-		polaris12_vce
-.endif
+# .if ${AMDGPUKMODS:Mpolaris12}
+# SUBDIR+=	polaris12_ce		\
+# 		polaris12_ce_2		\
+# 		polaris12_k_mc		\
+# 		polaris12_k_smc		\
+# 		polaris12_32_mc		\
+# 		polaris12_mc		\
+# 		polaris12_me		\
+# 		polaris12_me_2		\
+# 		polaris12_mec		\
+# 		polaris12_mec2		\
+# 		polaris12_mec2_2	\
+# 		polaris12_mec_2		\
+# 		polaris12_pfp		\
+# 		polaris12_pfp_2		\
+# 		polaris12_rlc		\
+# 		polaris12_sdma		\
+# 		polaris12_sdma1		\
+# 		polaris12_smc		\
+# 		polaris12_uvd		\
+# 		polaris12_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mstoney}
-SUBDIR+=	stoney_ce	\
-		stoney_me	\
-		stoney_mec	\
-		stoney_pfp	\
-		stoney_rlc	\
-		stoney_sdma	\
-		stoney_uvd	\
-		stoney_vce
-.endif
+# .if ${AMDGPUKMODS:Mstoney}
+# SUBDIR+=	stoney_ce	\
+# 		stoney_me	\
+# 		stoney_mec	\
+# 		stoney_pfp	\
+# 		stoney_rlc	\
+# 		stoney_sdma	\
+# 		stoney_uvd	\
+# 		stoney_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mtonga}
-SUBDIR+=	tonga_ce	\
-		tonga_k_smc	\
-		tonga_mc	\
-		tonga_me	\
-		tonga_mec	\
-		tonga_mec2	\
-		tonga_pfp	\
-		tonga_rlc	\
-		tonga_sdma	\
-		tonga_sdma1	\
-		tonga_smc	\
-		tonga_uvd	\
-		tonga_vce
-.endif
+# .if ${AMDGPUKMODS:Mtonga}
+# SUBDIR+=	tonga_ce	\
+# 		tonga_k_smc	\
+# 		tonga_mc	\
+# 		tonga_me	\
+# 		tonga_mec	\
+# 		tonga_mec2	\
+# 		tonga_pfp	\
+# 		tonga_rlc	\
+# 		tonga_sdma	\
+# 		tonga_sdma1	\
+# 		tonga_smc	\
+# 		tonga_uvd	\
+# 		tonga_vce
+# .endif
 
-.if ${AMDGPUKMODS:Mtopaz}
-SUBDIR+=	topaz_ce	\
-		topaz_k_smc	\
-		topaz_mc	\
-		topaz_me	\
-		topaz_mec	\
-		topaz_mec2	\
-		topaz_pfp	\
-		topaz_rlc	\
-		topaz_sdma	\
-		topaz_sdma1	\
-		topaz_smc
-.endif
+# .if ${AMDGPUKMODS:Mtopaz}
+# SUBDIR+=	topaz_ce	\
+# 		topaz_k_smc	\
+# 		topaz_mc	\
+# 		topaz_me	\
+# 		topaz_mec	\
+# 		topaz_mec2	\
+# 		topaz_pfp	\
+# 		topaz_rlc	\
+# 		topaz_sdma	\
+# 		topaz_sdma1	\
+# 		topaz_smc
+# .endif
 
 .if ${AMDGPUKMODS:Mvegam}
 SUBDIR+=	vegam_ce	\
